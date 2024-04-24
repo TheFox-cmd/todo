@@ -8,7 +8,7 @@ function App() {
   const [desc, setDesc] = useState("")
 
 
-  const addOnClick = () => {
+  const add = () => {
     setArr([...arr, {
       Title: title,
       Desc: desc,
@@ -16,30 +16,17 @@ function App() {
     }])
   }
 
-  const delOnClick = () => {
+  const clearAll = () => {
     setArr([])
-  }
-
-  const rmTodoAtIndex = (i) => {
-    let tmp = [...arr]
-    tmp.splice(i, 1)
-    setArr(tmp)
   }
 
   return (
     <div className="App">
-      <button className="add" onClick={addOnClick}>
-        Add
-      </button>
-
-      <button className="del" onClick={delOnClick}>
-        Delete
-      </button>
+      <button style={{color:"#0FF0FC"}} className="add" onClick={add}><span>Add</span><i></i></button>  
+      <button className="del" onClick={clearAll}><span>Delete</span><i/></button>
 
       <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}></input>
       <input placeholder="Description" value={desc} onChange={(e) => setDesc(e.target.value)}></input>
-
-
 
       {
         /* when return in JSX, to execute JS instruction, use {} */
@@ -50,7 +37,7 @@ function App() {
             Desc={e.Desc}
             Date={e.Date}
             index={i}
-            fn={rmTodoAtIndex}
+            fn={setArr}
           />
         })
       }
