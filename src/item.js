@@ -1,15 +1,17 @@
 import { useState } from "react";
 
-function Item({ Title, Desc, Date, index, fn }) {
+function Item({ Title, Desc, index, fn }) {
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [editTitle, setEditTitle] = useState(false);
   const [editDesc, setEditDesc] = useState(false);
+  const [complete, setComplete] = useState(false);
 
   const remove = () => {
     fn((oldArr) => {
       let tmp = [...oldArr];
       tmp.splice(index, 1);
+      localStorage.setItem("key", JSON.stringify(tmp));
       return tmp;
     });
   };
@@ -19,12 +21,12 @@ function Item({ Title, Desc, Date, index, fn }) {
       let tmp = [...oldArr];
       tmp[index].Title = newTitle;
       tmp[index].Desc = newDesc;
+      localStorage.setItem("key", JSON.stringify(tmp));
       return tmp;
     });
   };
-
   return (
-    <div>
+    <div id="item" style={{ display: "flex" }}>
       {
         // Title rendering
       }
@@ -56,7 +58,7 @@ function Item({ Title, Desc, Date, index, fn }) {
               setEditTitle(!editTitle);
             }}
           >
-            {Title}
+            {complete ? <s>{Title}</s> : Title}
           </div>
         )}
       </div>
@@ -92,10 +94,10 @@ function Item({ Title, Desc, Date, index, fn }) {
             }}
             style={{
               minHeight: "20px",
-              minWidth: "30px",
+              minWidth: "50px",
             }}
           >
-            {Desc}
+            {complete ? <s>{Desc}</s> : Desc}
           </div>
         )}
       </div>
@@ -106,6 +108,12 @@ function Item({ Title, Desc, Date, index, fn }) {
       >
         remove
       </button>
+      <input
+        type="checkbox"
+        onClick={() => {
+          setComplete(!complete);
+        }}
+      ></input>
     </div>
   );
 }
